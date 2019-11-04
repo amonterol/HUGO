@@ -64,12 +64,13 @@ public class Compilador {
             contenidoFinal = new ArrayList<>();
             contenidoFinal = compilarArchivoFuente(archivoFuente, fileName);
             //crearArchivoSalida(contenidoFinal);
-
+/*
             System.out.println("mainmain-CONTENDOFINAL INICIO");
             contenidoFinal.forEach((item) -> {
                 System.out.println(item.getLinea() + " " + item.getInstruccion());
             });
             System.out.println("mainmain-CONTENDOFINAL FINAL");
+            */
 
         } else {
             System.out.println("El archivo fuente no contiene informacion");
