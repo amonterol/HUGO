@@ -132,7 +132,7 @@ public class AnalizadorLexico {
                         auxTokens.add(nuevoToken);
                         //System.out.println("Se incluyo un nuevo token " + nuevoToken.getNombre());
                     } else if (existePara && nombreProcedimiento.esIdentificador(lexemas[i])) {
-                            System.out.println("Es un nombre de procedimiento " + lexemas[i]);
+                            //System.out.println("Es un nombre de procedimiento " + lexemas[i]);
                             nuevoToken = new Token(lexemas[i], Token.Tipos.NOMBREPROCEDIMIENTO, linea, i);
                             listaTokens.add(nuevoToken);
                             auxTokens.add(nuevoToken);
