@@ -14,9 +14,7 @@ import AnalizadorSintactico.AnalizadorSintactico;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 /**
  *
@@ -26,55 +24,39 @@ public class Compilador {
 
     private static AnalizadorLexico lexico;
     private static AnalizadorSintactico sintactico;
-    private static CodigoFuente codigoFuente;
-    private static List<String> contenidoArchivoFuente;
-    private static List<Token> listaTokens;
-    private static List<LineaContenido> contenido;
     private static List<LineaContenido> contenidoFinal;
-    private static List<MiError> listaErrores;
+    private static List<LineaContenido> contenido;
+
     private static String fileName;
+    private static String archivoFuente = "";
 
     public static void main(String[] args) throws IOException {
-
+       
         //Falta mostrar error sin args[0] no existe es decir si el no se incluye el nombre del archivo origina;
         try {
-            fileName = args[0];
+            fileName = args[0].toUpperCase();
         } catch (Exception e) {
             //Muestra un joptionpane dialog using showMessageDialog
             JOptionPane.showMessageDialog(null, "Debe suministrar un nombre de archivo con el formato: nombreArchivo.HUGO", "Falta archivo", JOptionPane.WARNING_MESSAGE);
             System.exit(0);
         }
+
         //El archivoFuente contiene la localizacion del programa escrito en .HUGO
-        String archivoFuente = "C:\\Program Files (x86)\\MSWLogo\\" + fileName;
+        //String archivoFuente = "C:\\Program Files (x86)\\MSWLogo\\" + fileName;
+        if (fileName.endsWith(".HUGO")) {
+            archivoFuente = "C:\\Program Files (x86)\\MSWLogo\\" + fileName;
+        } else {
+            JOptionPane.showMessageDialog(null, "La extension del programa debe ser .HUGO o .hugo", "Extension incorrecta", JOptionPane.WARNING_MESSAGE);
+            System.exit(0);
+        }
+
         if (!archivoFuente.isEmpty()) {
-
-            //Utilizamos el objeto "process" de la clase ProcessBuilder para ejecutar
-            //la lista de comandos contenido en "command" de esta forma podemos ejecutar
-            //comandos en el el "cmd"
-            List<String> command = new ArrayList<>();
-            command.add("cmd.exe");
-            command.add("/c");
-            command.add("cd \"C:\\Program Files (x86)\\MSWLogo\" && logo32.exe -l cuadrado.lgo");
-            ProcessBuilder process;
-            process = new ProcessBuilder(command);
-            process.redirectErrorStream(true);
-            process.start();
-
-          
             contenidoFinal = new ArrayList<>();
             contenidoFinal = compilarArchivoFuente(archivoFuente, fileName);
-            //crearArchivoSalida(contenidoFinal);
-/*
-            System.out.println("mainmain-CONTENDOFINAL INICIO");
-            contenidoFinal.forEach((item) -> {
-                System.out.println(item.getLinea() + " " + item.getInstruccion());
-            });
-            System.out.println("mainmain-CONTENDOFINAL FINAL");
-            */
-
         } else {
             System.out.println("El archivo fuente no contiene informacion");
         }
+
     }
 
     /*

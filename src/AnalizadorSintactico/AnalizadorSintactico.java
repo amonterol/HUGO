@@ -732,7 +732,7 @@ public class AnalizadorSintactico {
                                 break;
 
                             case "REPITE":
-                                 existeCorDerEnRepite = false;
+                                existeCorDerEnRepite = false;
                                 linea = tknActual.getLinea();
 
                                 nuevoContenido = buscarInstruccion(tknActual);
@@ -779,31 +779,31 @@ public class AnalizadorSintactico {
 
                                                         } else if (tknActual.getTipo().equals(Tipos.COLOR)) {
                                                             e = new MiError(linea, " ERROR 160: un color valido no puede ser utilizado como valor de la variable");
-                                                             erroresEncontradosEnRepite.add(e);
-                                                            nuevoContenido.setErroresEncontrados( erroresEncontradosEnRepite);
+                                                            erroresEncontradosEnRepite.add(e);
+                                                            nuevoContenido.setErroresEncontrados(erroresEncontradosEnRepite);
                                                             existenErroresEnArchivoOriginal = true;
                                                             ++numeroErroresEnArchivoOriginal;
 
                                                         } else if (tknActual.getTipo().equals(Tipos.COMANDOHUGO)) {
                                                             e = new MiError(linea, " ERROR 162: un comando de hugo no puede ser usado como valor");
-                                                             erroresEncontradosEnRepite.add(e);
+                                                            erroresEncontradosEnRepite.add(e);
                                                             existenErroresEnArchivoOriginal = true;
                                                             ++numeroErroresEnArchivoOriginal;
-                                                            nuevoContenido.setErroresEncontrados( erroresEncontradosEnRepite);
+                                                            nuevoContenido.setErroresEncontrados(erroresEncontradosEnRepite);
 
                                                         } else if (tknActual.getTipo().equals(Tipos.COMANDOLOGO)) {
                                                             e = new MiError(linea, " ERROR 163: un comando de logo no puede ser usado como valor");
-                                                             erroresEncontradosEnRepite.add(e);
+                                                            erroresEncontradosEnRepite.add(e);
                                                             existenErroresEnArchivoOriginal = true;
                                                             ++numeroErroresEnArchivoOriginal;
-                                                            nuevoContenido.setErroresEncontrados( erroresEncontradosEnRepite);
+                                                            nuevoContenido.setErroresEncontrados(erroresEncontradosEnRepite);
 
                                                         } else if (tknActual.getTipo().equals(Tipos.DESCONOCIDO)) {
                                                             e = new MiError(linea, " ERROR 110: se require una variable o identificador valido");
-                                                             erroresEncontradosEnRepite.add(e);
+                                                            erroresEncontradosEnRepite.add(e);
                                                             existenErroresEnArchivoOriginal = true;
                                                             ++numeroErroresEnArchivoOriginal;
-                                                            nuevoContenido.setErroresEncontrados( erroresEncontradosEnRepite);
+                                                            nuevoContenido.setErroresEncontrados(erroresEncontradosEnRepite);
 
                                                         } else {
                                                             e = new MiError(linea, " ERROR 110: se require una variable o identificador valido");
@@ -1750,7 +1750,7 @@ public class AnalizadorSintactico {
                                     existeCorDerEnRepite = false;
                                     e = new MiError(linea, " ERROR 103: falta corchete derecho");
                                     erroresEncontradosEnRepite.add(e);
-                                    nuevoContenido.setErroresEncontrados( erroresEncontradosEnRepite);
+                                    nuevoContenido.setErroresEncontrados(erroresEncontradosEnRepite);
                                     existenErroresEnArchivoOriginal = true;
                                     ++numeroErroresEnArchivoOriginal;
 
@@ -1790,8 +1790,8 @@ public class AnalizadorSintactico {
 
                                 if (tknSigte.getLinea() == linea) {
                                     e = new MiError(linea, " ERROR 160: la lista de comandos a repetir debe estar entre un corchete izquierdo y uno derecho");
-                                     erroresEncontradosEnRepite.add(e);
-                                    nuevoContenido.setErroresEncontrados( erroresEncontradosEnRepite);
+                                    erroresEncontradosEnRepite.add(e);
+                                    nuevoContenido.setErroresEncontrados(erroresEncontradosEnRepite);
                                     existenErroresEnArchivoOriginal = true;
                                     ++numeroErroresEnArchivoOriginal;
 
@@ -2641,6 +2641,18 @@ public class AnalizadorSintactico {
                     StandardOpenOption.CREATE,
                     StandardOpenOption.TRUNCATE_EXISTING);
 
+            List<String> command = new ArrayList<>();
+            command.add("cmd.exe");
+            command.add("/c");
+            command.add("cls");
+
+            ProcessBuilder process;
+            process = new ProcessBuilder(command);
+            process.redirectErrorStream(true);
+            process.start();
+
+            System.out.println("El programa " + nombreArchivoOriginal + " contiene errores");
+            System.out.println("Puede revisar el analisis, abriendo el archivo " + rutaArchivoErrores);
         } catch (IOException e) {
             System.out.println("Se produjo un error al crear el archivo de errores " + e);
         }
@@ -2648,7 +2660,6 @@ public class AnalizadorSintactico {
     }
 
     public static void crearArchivoSinErrores(List<LineaContenido> archivo, String nombreArchivoOriginal) throws IOException {
-        //String ruta = "C:\\Users\\pc\\Desktop\\hexagono8-Hugo-Errores.txt";
 
         int index = nombreArchivoOriginal.indexOf(".");
         String nombreSinExtension = nombreArchivoOriginal.substring(0, index);
@@ -2657,7 +2668,6 @@ public class AnalizadorSintactico {
         String nombreArchivoSinErrores = nombreSinExtension + ".lgo";
         String rutaArchivoSinErrores = "C:\\Program Files (x86)\\MSWLogo\\" + nombreArchivoSinErrores;
 
-        //String ruta = "C:\\Users\\pc\\Desktop\\cuadro-Hugo-Errores.txt";
         List<String> texts = new ArrayList<>();
         archivo.forEach((LineaContenido linea) -> texts.add(linea.toString()));
 
@@ -2669,6 +2679,20 @@ public class AnalizadorSintactico {
                     StandardCharsets.UTF_8,
                     StandardOpenOption.CREATE,
                     StandardOpenOption.TRUNCATE_EXISTING);
+
+            //Como el archivo fuente no tiene errores y ya se creo el .lgo procedemos a cargarlo y ejecutarlo
+            //Utilizamos el objeto "process" de la clase ProcessBuilder para ejecutar
+            //la lista de comandos contenido en "command" de esta forma podemos ejecutar
+            //comandos en el el "cmd"
+            List<String> command = new ArrayList<>();
+            command.add("cmd.exe");
+            command.add("/c");
+            command.add("cd \"C:\\Program Files (x86)\\MSWLogo\" && logo32.exe");
+            command.add("-l" + nombreArchivoSinErrores);
+            ProcessBuilder process;
+            process = new ProcessBuilder(command);
+            process.redirectErrorStream(true);
+            process.start();
 
         } catch (IOException e) {
             System.out.println("Se produjo un error al crear el archivo sin errores " + e);
