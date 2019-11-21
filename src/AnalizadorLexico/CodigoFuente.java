@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,6 +29,8 @@ public class CodigoFuente {
 
     public  void abrirArchivo() throws IOException {
         //Funcion que lee el archivo que contiene el programa en formato .HUGO  
+        
+        if(!this.getArchivoFuente().isEmpty()){
         Stream<String> stream = Files.lines( Paths.get( this.getArchivoFuente() ) );
         List<String> contenido = new ArrayList<>();
 
@@ -37,6 +40,10 @@ public class CodigoFuente {
                 .collect(Collectors.toList());
 
         setContenidoArchivo(contenido);
+        } else{
+            JOptionPane.showMessageDialog(null, "El programa fuente proporcionado no esta en el directorio C:\\Program Files (x86)\\MSWLogo" , "Falta archivo", JOptionPane.WARNING_MESSAGE);
+            System.exit(0); 
+        }
     }
 
     public   List<String> getContenidoArchivo() {
