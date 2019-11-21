@@ -31,7 +31,7 @@ public class Compilador {
     private static String archivoFuente = "";
 
     public static void main(String[] args) throws IOException {
-       
+       /*
         //Falta mostrar error sin args[0] no existe es decir si el no se incluye el nombre del archivo origina;
         try {
             fileName = args[0].toUpperCase();
@@ -40,7 +40,27 @@ public class Compilador {
             JOptionPane.showMessageDialog(null, "Debe suministrar un nombre de archivo con el formato: nombreArchivo.HUGO", "Falta archivo", JOptionPane.WARNING_MESSAGE);
             System.exit(0);
         }
-
+*/
+       //nuevo
+       if( args.length == 0){
+           JOptionPane.showMessageDialog(null, "Debe suministrar un nombre de archivo con el formato: nombreArchivo.HUGO", "Falta archivo", JOptionPane.WARNING_MESSAGE);
+            System.exit(0); 
+        } else if (args.length > 1) {
+            //Muestra un joptionpane dialog using showMessageDialog
+            JOptionPane.showMessageDialog(null, "Solo se permite un programa fuente con formato  nombreArchivo.HUGO", "Formato incorrecto", JOptionPane.WARNING_MESSAGE);
+            System.exit(0);
+        } else if (args.length == 1) {
+            fileName = args[0].toUpperCase();
+        }
+//fin nuevo
+       
+       
+       
+       
+       
+       
+       
+       
         //El archivoFuente contiene la localizacion del programa escrito en .HUGO
         //String archivoFuente = "C:\\Program Files (x86)\\MSWLogo\\" + fileName;
         if (fileName.endsWith(".HUGO")) {
